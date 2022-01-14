@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style/style.css">
+  </head>
+  <body>
+    <body>
+        <div id="container">
+          <div id="navbar">
+            <div id="home">
+              <h3><a href="search.html">Home</a></h3>
+            </div>
+            <div id="box">
+              <h3><a href="signup.html">Sign Up</a></h3>
+              <h3><a href="receipe.html">Random</a></h3>
+              <h3><a href="latest.html">Latest</a></h3>
+              <h3 id="name"></h3>
+         
+            </div>
+          </div>
+        </div>
+        <br />
+        <div id="login">
+          <form onsubmit="login(event)">
+            <h1>Login</h1>
+            <input type="text" id="username-login" placeholder="username" /><br> <br>
+            <input type="password" id="password-login" placeholder="password" /><br> <br>
+            <input type="submit" id="submit" />
+          </form>
+        </div>
+      </div>
+      <div id="loginname"></div>
+  </body>
+</html>
+
+<script>
+
+async function login(e) {
+    e.preventDefault();
+    var login_data = {
+      username: document.getElementById("username-login").value,
+      password: document.getElementById("password-login").value,
+    };
+
+    login_data = JSON.stringify(login_data);
+
+    let login_url = `https://masai-api-mocker.herokuapp.com/auth/login`;
+
+    let response = await fetch(login_url, {
+      method: "POST",
+      body: login_data,
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data = await response.json();
+    console.log("data:", data);
+
+    let username = document.getElementById("username-login").value;
+
+    getUser(username, data.token);
+  }
+
+  let nameAppend = document.getElementById("name");
+
+  async function getUser(username, token) {
+    let api = `https://masai-api-mocker.herokuapp.com/user/${username}`;
+
+    let response = await fetch(api, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    let data = await response.json();
+    console.log("data:", data);
+    let title = document.createElement("h3");
+    title.textContent = data.name;
+
+    nameAppend.append(title)
+
+
+       
+  }
+  
+</script>

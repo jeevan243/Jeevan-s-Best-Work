@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style/style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="navbar">
+        <div id="home">
+          <h3><a href="search.html">Home</a></h3>
+        </div>
+        <div id="box">
+          <h3><a href="signIn.html">Sign In</a></h3>
+          <h3><a href="receipe.html">Random</a></h3>
+          <h3><a href="latest.html">Latest</a></h3>
+        </div>
+      </div>
+    </div>
+    <div id="main">
+      <form onsubmit="Register(event)">
+        <h1>Register Here</h1>
+        <input type="text" id="name" placeholder="name" /><br />
+        <br />
+        <input type="email" id="email" placeholder="email" /><br />
+        <br />
+
+        <input type="text" id="username" placeholder="username" /><br />
+        <br />
+        <input type="password" id="password" placeholder="password" /><br />
+        <br />
+
+        <input type="number" id="mobile" placeholder="number" /><br />
+        <br />
+        <input type="text" id="description" placeholder="descripption" /><br />
+        <br />
+
+        <input type="submit" id="submit" />
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+  async function Register(e) {
+    try {
+      e.preventDefault();
+
+      var register_data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value,
+        username: document.getElementById("username").value,
+        mobile: document.getElementById("mobile").value,
+        description: document.getElementById("description").value,
+      };
+
+      register_data = JSON.stringify(register_data);
+      console.log("register_data", register_data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    let reg_api = `https://masai-api-mocker.herokuapp.com/auth/register`;
+
+    let response = await fetch(reg_api, {
+      method: "POST",
+      body: register_data,
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data = await response.json();
+
+    window.location.href = "signin.html";
+    console.log("data:", data);
+  }
+</script>
