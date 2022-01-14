@@ -4,7 +4,7 @@ function navbar() {
 
     return ` <div id="navbar">
     <div id="home">
-      <h3><a href="search.html">Home</a></h3>
+      <h3><a href="index.html">Home</a></h3>
     </div>
 
     <div id="box">
